@@ -1,3 +1,6 @@
 [submodule "Assets/3DNavMeshGameRestrictedFiles"]
 	path = Assets/3DNavMeshGameRestrictedFiles
 	url = https://github.com/RobbieWagner/3DNavMeshGameRestrictedFiles.git
+[submodule "Assets/Restricted"]
+	path = Assets/Restricted
+	url = https://github.com/RobbieWagner/3DNavMeshGameRestrictedFiles.git
