@@ -10,32 +10,54 @@ public class ThirdPersonMovement : MonoBehaviour
     private Transform cam;
 
     [SerializeField]
-    private float speed = 6f;
-
-    [SerializeField]
-    private float turnTime = 0.1f;
-    float turnSmoothVelocity;
-
-    [SerializeField]
     private Animator playerA;
+    [SerializeField]
+    private string inchingAnimation;
+
+    private bool inching;
+
+    [SerializeField]
+    private float displacement;
+
+    void Start()
+    {
+        playerA.enabled = false;
+        inching = false;
+    }
 
     //Update is called once per frame
     void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 direction = new Vector3(0f, 0f, vertical).normalized;
 
-        if (direction.magnitude >= 0.1f)
+        if (!inching && direction.magnitude >= 0.1f)
         {
+            Debug.Log("Preparing to inch");
+            inching = true;
+
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            if(moveDir != Vector3.zero) playerA.SetBool("Moving", true);
-            else playerA.SetBool("Moving", false);
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            StartCoroutine(InchWorm(inchingAnimation, moveDir, displacement));
         }
     }
+
+     public IEnumerator InchWorm(string inchingAnimation, Vector3 moveDir, float displacement)
+     {
+        Debug.Log("Inching");
+
+        playerA.enabled = true;
+        playerA.Play(inchingAnimation);
+        yield return new WaitForSeconds(playerA.GetCurrentAnimatorStateInfo(0).length - 0.01f);
+        animation[inchingAnimation].time = 0f;
+        playerA.enabled = false;
+
+        Debug.Log("Inched");
+        controller.Move(moveDir.normalized * displacement);
+        
+        inching = false;
+        StopCoroutine(InchWorm(inchingAnimation, moveDir, displacement));
+     }
 }
