@@ -43,16 +43,37 @@ public class ThirdPersonMovement : MonoBehaviour
         }
     }
 
+    //  public IEnumerator InchWorm(string inchingAnimation, Vector3 moveDir, float displacement)
+    //  {
+    //     Debug.Log("Inching");
+
+    //     Debug.Log("Was Inching " + playerA.GetBool("Inching"));
+    //     playerA.SetBool("Inching", true);
+    //     Debug.Log("Is Inching" + playerA.GetBool("Inching"));
+
+    //     if(playerA.GetCurrentAnimatorStateInfo(0).IsName("InchwormInch")) Debug.Log("WTF");
+    //     Debug.Log(playerA.GetCurrentAnimatorStateInfo(0).length);
+    //     yield return new WaitForSeconds(playerA.GetCurrentAnimatorStateInfo(0).length);
+    //     playerA.SetBool("Inching", false);
+
+    //     Debug.Log("Inched");
+    //     //controller.Move(moveDir.normalized * displacement);
+        
+    //     inching = false;
+    //     StopCoroutine(InchWorm(inchingAnimation, moveDir, displacement));
+    //  }
+
      public IEnumerator InchWorm(string inchingAnimation, Vector3 moveDir, float displacement)
      {
         Debug.Log("Inching");
 
-        playerA.SetBool("Inching", true);
+        playerA.enabled = true;
         yield return new WaitForSeconds(playerA.GetCurrentAnimatorStateInfo(0).length);
-        playerA.SetBool("Inching", false);
+        playerA.enabled = false;
 
         Debug.Log("Inched");
-        //controller.Move(moveDir.normalized * displacement);
+        controller.Move(moveDir.normalized * displacement);
+        transform.Translate(moveDir.normalized * displacement);
         
         inching = false;
         StopCoroutine(InchWorm(inchingAnimation, moveDir, displacement));
