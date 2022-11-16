@@ -33,7 +33,6 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (!inching && direction.magnitude >= 0.1f)
         {
-            Debug.Log("Preparing to inch");
             inching = true;
 
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -48,14 +47,12 @@ public class ThirdPersonMovement : MonoBehaviour
      {
         Debug.Log("Inching");
 
-        playerA.enabled = true;
-        playerA.Play(inchingAnimation);
-        yield return new WaitForSeconds(playerA.GetCurrentAnimatorStateInfo(0).length - 0.01f);
-        animation[inchingAnimation].time = 0f;
-        playerA.enabled = false;
+        playerA.SetBool("Inching", true);
+        yield return new WaitForSeconds(playerA.GetCurrentAnimatorStateInfo(0).length);
+        playerA.SetBool("Inching", false);
 
         Debug.Log("Inched");
-        controller.Move(moveDir.normalized * displacement);
+        //controller.Move(moveDir.normalized * displacement);
         
         inching = false;
         StopCoroutine(InchWorm(inchingAnimation, moveDir, displacement));
