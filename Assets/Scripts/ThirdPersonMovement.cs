@@ -8,6 +8,10 @@ public class ThirdPersonMovement : MonoBehaviour
     private CharacterController controller;
     [SerializeField]
     private Transform cam;
+    [SerializeField]
+    private Transform playerPos;
+
+    private Vector3 returnPositon;
 
     [SerializeField]
     private Animator playerA;
@@ -30,6 +34,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(0f, 0f, vertical).normalized;
+        returnPositon = Vector3.zero;
 
         if (!inching && direction.magnitude >= 0.1f)
         {
@@ -72,8 +77,9 @@ public class ThirdPersonMovement : MonoBehaviour
         playerA.enabled = false;
 
         Debug.Log("Inched");
-        controller.Move(moveDir.normalized * displacement);
-        transform.Translate(moveDir.normalized * displacement);
+        //controller.Move(moveDir.normalized * displacement);
+        playerPos.Translate(moveDir.normalized * displacement);
+        transform.position = returnPositon + playerPos.position;
         
         inching = false;
         StopCoroutine(InchWorm(inchingAnimation, moveDir, displacement));
