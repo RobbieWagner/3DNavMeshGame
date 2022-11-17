@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
@@ -12,10 +13,15 @@ public class ThirdPersonMovement : MonoBehaviour
     private Transform playerPos;
 
     [SerializeField]
+    private TextMeshProUGUI errorText;
+
+    [SerializeField]
     private Animator playerA;
 
     private bool inching;
     private bool inchingPart2;
+
+    private bool flashingText;
 
     [SerializeField]
     private LayerMask ignoreLayers;
@@ -34,6 +40,8 @@ public class ThirdPersonMovement : MonoBehaviour
         inching = false;
         inchingPart2 = false;
         moveDir = Vector3.forward;
+
+        flashingText = false;
     }
 
     //Update is called once per frame
@@ -53,12 +61,22 @@ public class ThirdPersonMovement : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
                 StartCoroutine(InchWorm());
             }
-            else Debug.Log("worm cant inch");
+            else if(!flashingText) StartCoroutine(flashText());
         }
         else if(inchingPart2) 
         {
             controller.Move(moveDir.normalized * displacement * Time.deltaTime);
         }
+    }
+
+    private IEnumerator flashText()
+    {
+        flashingText = true;
+        errorText.text = "Object blocking movement";
+        yield return new WaitForSeconds(3f);
+        errorText.text = "";
+        flashingText = false;
+        StopCoroutine(flashText());
     }
 
     private bool checkMovability(Vector3 direction, float checkDistance)
