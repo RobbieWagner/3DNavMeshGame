@@ -18,6 +18,12 @@ public class ThirdPersonMovement : MonoBehaviour
     private bool inchingPart2;
 
     [SerializeField]
+    private LayerMask ignoreLayers;
+    [SerializeField]
+    private float checkDistanceBehind;
+    [SerializeField]
+    private float checkDistanceForward;
+    [SerializeField]
     private float displacement;
 
     private Vector3 moveDir;
@@ -38,26 +44,32 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (!inching && direction.magnitude >= 0.1f)
         {
-            inching = true;
-
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            Debug.Log("set direction " + moveDir.ToString());
-            StartCoroutine(InchWorm());
+            if(checkMovability(-moveDir.normalized, checkDistanceBehind) && checkMovability(moveDir.normalized, checkDistanceForward))
+            {
+                inching = true;
+                transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+                StartCoroutine(InchWorm());
+            }
+            else Debug.Log("worm cant inch");
         }
         else if(inchingPart2) 
         {
-            Debug.Log("get direction " + moveDir.ToString());
-            playerPos.Translate(moveDir.normalized * displacement * Time.deltaTime);
+            controller.Move(moveDir.normalized * displacement * Time.deltaTime);
         }
     }
 
-     public IEnumerator InchWorm()
-     {
-        Debug.Log("Inching");
-        
+    private bool checkMovability(Vector3 direction, float checkDistance)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, direction);
+        return !Physics.Raycast(ray, out hit, checkDistance);
+    }
+
+    public IEnumerator InchWorm()
+    {
         playerA.SetBool("Inching", true);
         yield return new WaitForSeconds(playerA.GetCurrentAnimatorStateInfo(0).length);
         playerA.SetBool("Part2", true);
@@ -66,10 +78,8 @@ public class ThirdPersonMovement : MonoBehaviour
         inchingPart2 = false;
         playerA.SetBool("Part2", false);
         playerA.SetBool("Inching", false);
-
-        Debug.Log("Inched");
         
         inching = false;
         StopCoroutine(InchWorm());
-     }
+    }
 }
