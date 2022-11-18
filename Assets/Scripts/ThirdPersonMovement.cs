@@ -9,8 +9,11 @@ public class ThirdPersonMovement : MonoBehaviour
     private CharacterController controller;
     [SerializeField]
     private Transform cam;
+
     [SerializeField]
     private Transform playerPos;
+    [SerializeField]
+    private Transform head;
 
     [SerializeField]
     private TextMeshProUGUI errorText;
