@@ -14,6 +14,10 @@ public class ThirdPersonMovement : MonoBehaviour
     private Transform playerPos;
     [SerializeField]
     private Transform head;
+    [SerializeField]
+    private float headRotationMin = -30f;
+    [SerializeField]
+    private float headRotationMax = 30f;
 
     [SerializeField]
     private TextMeshProUGUI errorText;
@@ -69,6 +73,10 @@ public class ThirdPersonMovement : MonoBehaviour
         else if(inchingPart2) 
         {
             controller.Move(moveDir.normalized * displacement * Time.deltaTime);
+        }
+        else if(!inching)
+        {
+            //head.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(cam.rotation.y, headRotationMin + transform.rotation.z, headRotationMax + transform.rotation.z));
         }
         
         playerPos.position = new Vector3(playerPos.position.x, .1f, playerPos.position.z);
