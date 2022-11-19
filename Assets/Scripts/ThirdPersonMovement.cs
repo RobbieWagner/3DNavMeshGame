@@ -70,6 +70,8 @@ public class ThirdPersonMovement : MonoBehaviour
         {
             controller.Move(moveDir.normalized * displacement * Time.deltaTime);
         }
+        
+        playerPos.position = new Vector3(playerPos.position.x, .1f, playerPos.position.z);
     }
 
     private IEnumerator flashText()
