@@ -76,7 +76,7 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         else if(!inching)
         {
-            //head.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(cam.rotation.y, headRotationMin + transform.rotation.z, headRotationMax + transform.rotation.z));
+            head.rotation = Quaternion.Euler(0f, 0f, 90f);//Mathf.Clamp(cam.rotation.y, headRotationMin + transform.rotation.y, headRotationMax + transform.rotation.y));
         }
         
         playerPos.position = new Vector3(playerPos.position.x, .1f, playerPos.position.z);
