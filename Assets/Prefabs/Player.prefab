@@ -466,6 +466,6 @@ MonoBehaviour:
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 8
-  checkDistanceBehind: 1.5
+  checkDistanceBehind: 1.4
   checkDistanceForward: 0.7
-  displacement: 0.6
+  displacement: 1

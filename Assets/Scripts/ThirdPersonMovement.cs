@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cinemachine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
@@ -32,12 +33,16 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [SerializeField]
     private LayerMask ignoreLayers;
+
+    [HideInInspector]
+    public float checkDistanceBehind;
+    [HideInInspector]
+    public float checkDistanceForward;
     [SerializeField]
-    private float checkDistanceBehind;
+    public float displacement;
+
     [SerializeField]
-    private float checkDistanceForward;
-    [SerializeField]
-    private float displacement;
+    private CinemachineFreeLook cameraRigs;
 
     private Vector3 moveDir;
 
@@ -49,6 +54,9 @@ public class ThirdPersonMovement : MonoBehaviour
         moveDir = Vector3.forward;
 
         flashingText = false;
+
+        checkDistanceBehind = (displacement + .1f) * 2;
+        checkDistanceForward = displacement + .1f;
     }
 
     //Update is called once per frame
@@ -103,6 +111,18 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         
         return true;
+    }
+
+    public void changeWormSize(float change)
+    {
+        displacement += change;
+        checkDistanceBehind = (displacement + .1f) * 2;
+        checkDistanceForward = displacement + .1f;
+        cameraRigs.m_Orbits[2].m_Radius += change * 4;
+        cameraRigs.m_Orbits[2].m_Height += change * .4f;
+
+        //doesn't work right now (need to fix issues with y pos)
+        //playerPos.position += new Vector3(0, change/10, 0);
     }
 
     public IEnumerator InchWorm()

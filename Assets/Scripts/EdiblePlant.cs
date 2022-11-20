@@ -21,7 +21,9 @@ public class EdiblePlant : Interactable
     {
         PlayerPos.localScale += sizeChange;
         player.canInteractWithObjects = false;
-        Debug.Log("hi");
+    
+        playerTPM.changeWormSize(growth);
+
         Destroy(gameObject);
     }
 }

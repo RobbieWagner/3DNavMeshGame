@@ -7,6 +7,8 @@ public abstract class Interactable : MonoBehaviour
 {
     [SerializeField]
     protected Player player;
+    [SerializeField]
+    protected ThirdPersonMovement playerTPM;
     protected bool playerCanInteract;
     protected bool isInteracting;
     protected bool runningCooldown;
@@ -24,7 +26,6 @@ public abstract class Interactable : MonoBehaviour
     {   
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player")) 
         {
-            Debug.Log("can interact");
             playerCanInteract = true;
             player.canInteractWithObjects = true;
         }
