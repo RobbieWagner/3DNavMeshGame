@@ -96,7 +96,13 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position, direction);
-        return !Physics.Raycast(ray, out hit, checkDistance);
+
+        if(Physics.Raycast(ray, out hit, checkDistance))
+        {
+            if(hit.collider.gameObject.tag.Equals("Obstacle")) return false;
+        }
+        
+        return true;
     }
 
     public IEnumerator InchWorm()
