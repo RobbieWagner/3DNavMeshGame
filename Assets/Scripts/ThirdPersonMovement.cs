@@ -88,6 +88,8 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         
         playerPos.position = new Vector3(playerPos.position.x, .1f, playerPos.position.z);
+
+        //.1f + ((playerPos.localScale.y - 1f)/4)
     }
 
     private IEnumerator flashText()
