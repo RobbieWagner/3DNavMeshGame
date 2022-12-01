@@ -44,7 +44,7 @@ public abstract class Interactable : MonoBehaviour
     //checks for interaction
     protected virtual void Update()
     {
-        if(player.canInteractWithObjects && playerCanInteract && Input.GetKeyDown(KeyCode.K))
+        if(player.canInteractWithObjects && playerCanInteract && Input.GetKeyDown(KeyCode.Space))
         {
             Interact();
         }

@@ -23,6 +23,7 @@ public class EdiblePlant : Interactable
         player.canInteractWithObjects = false;
     
         playerTPM.changeWormSize(growth);
+        playerTPM.yPos += growth/25;
 
         Destroy(gameObject);
     }

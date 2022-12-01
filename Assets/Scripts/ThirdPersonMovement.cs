@@ -40,6 +40,8 @@ public class ThirdPersonMovement : MonoBehaviour
     public float checkDistanceForward;
     [SerializeField]
     public float displacement;
+    [SerializeField]
+    public float yPos = .1f;
 
     [SerializeField]
     private CinemachineFreeLook cameraRigs;
@@ -87,7 +89,7 @@ public class ThirdPersonMovement : MonoBehaviour
             head.rotation = Quaternion.Euler(0f, 0f, 90f);//Mathf.Clamp(cam.rotation.y, headRotationMin + transform.rotation.y, headRotationMax + transform.rotation.y));
         }
         
-        playerPos.position = new Vector3(playerPos.position.x, .1f, playerPos.position.z);
+        playerPos.position = new Vector3(playerPos.position.x, yPos, playerPos.position.z);
 
         //.1f + ((playerPos.localScale.y - 1f)/4)
     }
