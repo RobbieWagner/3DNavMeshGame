@@ -47,6 +47,10 @@ public class ThirdPersonMovement : MonoBehaviour
     private CinemachineFreeLook cameraRigs;
 
     private Vector3 moveDir;
+    
+    private float vertical;
+
+    public bool canMove;
 
     void Start()
     {
@@ -59,12 +63,15 @@ public class ThirdPersonMovement : MonoBehaviour
 
         checkDistanceBehind = (displacement + .1f) * 2;
         checkDistanceForward = displacement + .1f;
+
+        canMove = true;
     }
 
     //Update is called once per frame
     void Update()
     {
-        float vertical = Input.GetAxisRaw("Vertical");
+        
+        if(canMove) vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(0f, 0f, vertical).normalized;
 
         if (!inching && direction.magnitude >= 0.1f)
