@@ -31,6 +31,7 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField]
     private Player player;
+    [SerializeField]
     private ThirdPersonMovement playerM;
 
     private bool canMoveOn;
@@ -47,14 +48,10 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
-        blinkIcon.enabled = false;
+        //blinkIcon.enabled = false;
 
         buttons = new GameObject[1];
         buttonsText = new TextMeshProUGUI[1];
-
-        //lastingImpacts = new List<string>();
-
-        playerM = player.GetComponent<ThirdPersonMovement>();
 
         canMoveOn = false;
         waitingForPlayerToContinue = false;
@@ -68,7 +65,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Update() 
     {
-        if(Input.GetKeyDown(KeyCode.K) && canMoveOn && waitingForPlayerToContinue && !isPressingButton)
+        if(canMoveOn && waitingForPlayerToContinue && !isPressingButton)
         {
             isPressingButton = true;
             waitingForPlayerToContinue = false;
@@ -78,7 +75,7 @@ public class DialogueManager : MonoBehaviour
             else EndDialogue();
         }    
 
-        if((Input.GetKeyUp(KeyCode.K) || Input.GetKeyUp(KeyCode.Return) || Input.GetKeyUp(KeyCode.Space)) && canMoveOn)
+        if((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.Return)) && canMoveOn)
         isPressingButton = false;
     }
 
@@ -199,9 +196,9 @@ public class DialogueManager : MonoBehaviour
         waitingForPlayerToContinue = true;
         while(waitingForPlayerToContinue) 
         {
-            blinkIcon.enabled = true;
+            //blinkIcon.enabled = true;
             yield return new WaitForSeconds(.5f);
-            blinkIcon.enabled = false;
+            //blinkIcon.enabled = false;
             yield return new WaitForSeconds(.3f);
         }
         waitingForPlayerToContinue = false;

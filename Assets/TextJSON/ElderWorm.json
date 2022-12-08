@@ -1,0 +1,12 @@
+{
+    "dialogue":
+    {
+        "dialogueID" : 0,
+        "sentences" : [
+            {"textID":0, "text":"How interesting...","weakChoice":[{"choiceText":">","nextTextID":1}], "speaker":""},
+            {"textID":1, "text":"It seems as though they have less control than they thought.","weakChoice":[{"choiceText":">","nextTextID":2}], "speaker":""},
+            {"textID":2, "text":"Go now, little one","weakChoice":[{"choiceText":">","nextTextID":3}], "speaker":""},
+            {"textID":3, "text":"Before your captors find you","weakChoice":[{"choiceText":">","nextTextID":4}], "speaker":""}
+        ]
+    }
+}
